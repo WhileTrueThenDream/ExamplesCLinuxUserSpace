@@ -19,57 +19,58 @@ int main(int argc, char* argv[])
 
     if(pid == 0)              /* hijo 1*/
     {      		
-		  close(fd1[READ_END]);   /* cerrar extremo no necesario */
+        close(fd1[READ_END]);   /* cerrar extremo no necesario */
 		
-      dup2(fd1[WRITE_END], STDOUT_FILENO); 
-		  close(fd1[WRITE_END]);
+        dup2(fd1[WRITE_END], STDOUT_FILENO); 
+	close(fd1[WRITE_END]);
 		
-      execlp("/bin/ls", "ls", "-l", NULL);
+        execlp("/bin/ls", "ls", "-l", NULL);
     }
-    else                         /* padre */
+    else                          /* padre */
     { 
-		   close(fd1[WRITE_END]);    /* extremo no necesario ya */
+	close(fd1[WRITE_END]);    /* extremo no necesario ya */
 		
-		   pipe(fd2);		             /* comunica grep y wc */
-       pid = fork();
+	pipe(fd2);		  /* comunica grep y wc */
+        pid = fork();
         
-       if(pid == 0)              /* hijo 2 */
+       if(pid == 0)               /* hijo 2 */
        {
-			    close(fd2[READ_END]);  /* cerrar extremo no necesario */
+	  close(fd2[READ_END]);   /* cerrar extremo no necesario */
 									
           dup2(fd1[READ_END], STDIN_FILENO);
-			    close(fd1[READ_END]);
+	  close(fd1[READ_END]);
 			
-			    dup2(fd2[WRITE_END], STDOUT_FILENO);			
-			    close(fd2[WRITE_END]);
+	  dup2(fd2[WRITE_END], STDOUT_FILENO);			
+	  close(fd2[WRITE_END]);
 			
           execlp("/bin/grep","grep", "u",NULL);
-		   }
-		   else /* padre */
-		   {
-          close(fd1[READ_END]);      /* cerrar extremo no necesario */
-          close(fd2[WRITE_END]);     /* cerrar extremo no necesario */
+	}
+	else /* padre */
+	{
+           close(fd1[READ_END]);      /* cerrar extremo no necesario */
+           close(fd2[WRITE_END]);     /* cerrar extremo no necesario */
 			
-     		  pid = fork();
+     	   pid = fork();
 		
-			    if(pid == 0) /* hijo 3*/
+	   if(pid == 0) /* hijo 3*/
           {
-				      dup2(fd2[READ_END], STDIN_FILENO);
-				      close(fd2[READ_END]);
+	    dup2(fd2[READ_END], STDIN_FILENO);
+	    close(fd2[READ_END]);
 				
-				      execlp("/usr/bin/wc","wc", "-l",NULL);
-			    }
-		    }		    		        
-    }
+	    execlp("/usr/bin/wc","wc", "-l",NULL);
+	  }
+        }		        
+      }
     
     close(fd2[READ_END]);  /* cerrar extremo que queda abierto en el padre  */
 	
-	  /* wait para cada hijo */
+   /* wait para cada hijo */
     wait(&status);   
     wait(&status);	
-	  wait(&status);
+    wait(&status);
 	
     return 0;
+  	
 }
 	
 

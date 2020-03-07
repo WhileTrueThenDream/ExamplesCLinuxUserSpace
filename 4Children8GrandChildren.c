@@ -2,6 +2,7 @@
 #include <sys/types.h>
 #include <unistd.h>
 #include <sys/wait.h>
+#include <stdlib.h>
 
 #define CHILD_NUM    4
 #define GCHILD_CHILD 2
@@ -32,7 +33,7 @@ int main(void)
      if(fork() == 0)
      {
        childDo(getpid(), i);
-       break;
+       exit(0);
      }
    }
    

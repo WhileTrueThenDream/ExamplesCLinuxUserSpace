@@ -22,12 +22,12 @@ int main(void)
    if(fd == -1)
    {
        printf("Error file descriptor \n");
-	   exit(-1);
+	   exit(1);
    }
    if(-1 == ftruncate(fd, SIZEOF_SMOBJ))
    {
        printf("Error shared memory cannot be resized \n");
-	   exit(-1);
+	   exit(1);
    }
    
    close(fd);

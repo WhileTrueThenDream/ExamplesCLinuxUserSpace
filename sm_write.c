@@ -25,14 +25,14 @@ int main(void)
    if(fd == -1)
    {
        printf("Error file descriptor %s\n", strerror(errno));
-	   exit(-1);
+	   exit(1);
    }
    
    ptr = mmap(NULL, sizeof(buf), PROT_WRITE, MAP_SHARED, fd, 0);
    if(ptr == MAP_FAILED)
    {
       printf("Map failed in write process: %s\n", strerror(errno));
-      exit(-1);
+      exit(1);
    }
    
    memcpy(ptr,buf, sizeof(buf));

@@ -36,13 +36,13 @@ int main(int argc, char *argv[])
   else
   {
     printf("Error argument number \n");
-    exit(-1);
+    exit(1);
   }
   
   if( -1 == (fd = open(file_name, O_RDWR))) /* open file in read/write mode*/
   {
     perror("Error opened file \n");
-    exit(-1);
+    exit(1);
   }
   
   fstat(fd, &file_st); /* Load file status */
@@ -51,10 +51,10 @@ int main(int argc, char *argv[])
   if(addr == MAP_FAILED) /* check mapping successful */
   {
     perror("Error  mapping \n");
-    exit(-1);
+    exit(1);
   }
   
-   printf("\nfile contents before:\n%s \n", addr); /* write current file contents */
+    printf("\nfile contents before:\n%s \n", addr); /* write current file contents */
   
   for(size_t i = 0; i < file_st.st_size; i++) /* replace characters  */
   {

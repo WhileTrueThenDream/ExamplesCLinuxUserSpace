@@ -22,12 +22,12 @@
 
 int main(int argc, char *argv[])
 {
-  char *addr, *file_name;
+  char *addr, *file_name; 
   int fd;
   struct stat file_st;
   char seekchar, newchar;
   
-  if(argc == 4)
+  if(argc == 4)    /* check impunt arguments are right */
   {
     file_name = argv[1];
     seekchar = *argv[2];
@@ -39,30 +39,30 @@ int main(int argc, char *argv[])
     exit(-1);
   }
   
-  if( -1 == (fd = open(file_name, O_RDWR)))
+  if( -1 == (fd = open(file_name, O_RDWR))) /* open file in read/write mode*/
   {
     perror("Error opened file \n");
     exit(-1);
   }
   
-  fstat(fd, &file_st);
+  fstat(fd, &file_st); /* Load file status */
   
-  addr = mmap(NULL,file_st.st_size, PROT_WRITE, MAP_SHARED, fd, 0);
-  if(addr == MAP_FAILED)
+  addr = mmap(NULL,file_st.st_size, PROT_WRITE, MAP_SHARED, fd, 0); /* map file  */
+  if(addr == MAP_FAILED) /* check mapping successful */
   {
     perror("Error  mapping \n");
     exit(-1);
   }
   
-    printf("\nfile contents before:\n%s \n", addr);
+   printf("\nfile contents before:\n%s \n", addr); /* write current file contents */
   
-  for(size_t i = 0; i < file_st.st_size; i++)
+  for(size_t i = 0; i < file_st.st_size; i++) /* replace characters  */
   {
     if (addr[i] == seekchar) 
        (addr[i] = newchar) ;
   }
      
-  printf("\nfile contents after:\n%s \n", addr);
+  printf("\nfile contents after:\n%s \n", addr); /* write file contents after modification */
      
   return 0;
 }

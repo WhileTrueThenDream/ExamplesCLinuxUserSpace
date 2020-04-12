@@ -22,47 +22,47 @@
 
 int main(int argc, char *argv[])
 {
-	char *addr, *file_name;
-	int fd;
-	struct stat file_st;
-	char seekchar, newchar;
-	
-	if(argc == 4)
-	{
-		file_name = argv[1];
-		seekchar = *argv[2];
-		newchar = *argv[3];
-	}
-	else
-	{
-		printf("Error argument number \n");
-		exit(-1);
-	}
-	
-	if( -1 == (fd = open(file_name, O_RDWR)))
-	{
-		perror("Error opened file \n");
-		exit(-1);
-	}
-	
-	fstat(fd, &file_st);
-	
-	addr = mmap(NULL,file_st.st_size, PROT_WRITE, MAP_SHARED, fd, 0);
-	if(addr == MAP_FAILED)
-	{
-		perror("Error  mapping \n");
-		exit(-1);
-	}
-	
-    printf("file contents before:\n%s \n", addr);
-	
-	for(size_t i = 0; i < file_st.st_size; i++)
-	{
-		if (addr[i] == seekchar) 
-		   (addr[i] = newchar) ;
-	}
-	   
-	printf("file contents after:\n%s \n", addr);
-	   
-	return 0;
+  char *addr, *file_name;
+  int fd;
+  struct stat file_st;
+  char seekchar, newchar;
+  
+  if(argc == 4)
+  {
+    file_name = argv[1];
+    seekchar = *argv[2];
+    newchar = *argv[3];
+  }
+  else
+  {
+    printf("Error argument number \n");
+    exit(-1);
+  }
+  
+  if( -1 == (fd = open(file_name, O_RDWR)))
+  {
+    perror("Error opened file \n");
+    exit(-1);
+  }
+  
+  fstat(fd, &file_st);
+  
+  addr = mmap(NULL,file_st.st_size, PROT_WRITE, MAP_SHARED, fd, 0);
+  if(addr == MAP_FAILED)
+  {
+    perror("Error  mapping \n");
+    exit(-1);
+  }
+  
+    printf("\nfile contents before:\n%s \n", addr);
+  
+  for(size_t i = 0; i < file_st.st_size; i++)
+  {
+    if (addr[i] == seekchar) 
+       (addr[i] = newchar) ;
+  }
+     
+  printf("\nfile contents after:\n%s \n", addr);
+     
+  return 0;
 }

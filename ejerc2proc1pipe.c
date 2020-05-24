@@ -14,8 +14,8 @@
 #include <fcntl.h>
 
 
-#define READ_END    0    /* index pipe extremo escritura */
-#define WRITE_END   1    /* index pipe extremo lectura */
+#define READ_END    0    /* index pipe extremo lectura */
+#define WRITE_END   1    /* index pipe extremo escritura */
 
 #define FILE_NAME  "file.txt"   /* nombre del archivo donde escribir */
 

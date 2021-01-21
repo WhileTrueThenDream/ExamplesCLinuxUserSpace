@@ -22,7 +22,7 @@ char buf_tx[] = "Hello server. I am a client";
 char buf_rx[100];                     /* receive buffer */
  
  
-/* This clients connects, sends short sequences in while loop and never disconnects */
+/* This clients connects, sends a text and disconnects */
 int main() 
 { 
     int sockfd; 
